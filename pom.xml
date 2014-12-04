@@ -23,6 +23,9 @@
     <name>SAMOA</name>
     <description>Scalable Advanced Massive Online Analysis</description>
     <url>http://github.com/yahoo/samoa</url>
+    <modules>
+        <module>samoa-flink</module>
+    </modules>
     <packaging>pom</packaging>
 
     <groupId>com.yahoo.labs.samoa</groupId>
@@ -135,6 +138,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax</artifactId>
+            <version>1.56.24</version>
         </dependency>
     </dependencies>
 
