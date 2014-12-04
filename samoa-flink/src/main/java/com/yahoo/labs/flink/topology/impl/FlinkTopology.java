@@ -26,4 +26,8 @@ public class FlinkTopology extends AbstractTopology {
 	public void addProcessingItem(IProcessingItem procItem, int parallelismHint) {
 		super.addProcessingItem(procItem, parallelismHint);
 	}
+
+	public StreamExecutionEnvironment getEnvironment() {
+		return environment;
+	}
 }
