@@ -88,6 +88,14 @@
                 <module>samoa-samza</module>
             </modules>
         </profile>
+	  <profile>
+            <id>flink</id>
+            <modules>
+                <module>samoa-instances</module>
+                <module>samoa-api</module>
+                <module>samoa-flink</module>
+            </modules>
+        </profile>
         <profile>
             <id>all</id>
             <modules>
@@ -98,6 +106,7 @@
                 <module>samoa-storm</module>
                 <module>samoa-s4</module>
                 <module>samoa-samza</module>
+                <module>samoa-flink</module>
             </modules>
         </profile>
     </profiles>
