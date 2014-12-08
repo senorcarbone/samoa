@@ -23,6 +23,9 @@
     <name>SAMOA</name>
     <description>Scalable Advanced Massive Online Analysis</description>
     <url>http://github.com/yahoo/samoa</url>
+    <modules>
+        <module>samoa-flink</module>
+    </modules>
     <packaging>pom</packaging>
 
     <groupId>com.yahoo.labs.samoa</groupId>
@@ -85,6 +88,14 @@
                 <module>samoa-samza</module>
             </modules>
         </profile>
+	  <profile>
+            <id>flink</id>
+            <modules>
+                <module>samoa-instances</module>
+                <module>samoa-api</module>
+                <module>samoa-flink</module>
+            </modules>
+        </profile>
         <profile>
             <id>all</id>
             <modules>
@@ -95,6 +106,7 @@
                 <module>samoa-storm</module>
                 <module>samoa-s4</module>
                 <module>samoa-samza</module>
+                <module>samoa-flink</module>
             </modules>
         </profile>
     </profiles>
@@ -135,6 +147,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.astyanax</groupId>
+            <artifactId>astyanax</artifactId>
+            <version>1.56.24</version>
         </dependency>
     </dependencies>
 
