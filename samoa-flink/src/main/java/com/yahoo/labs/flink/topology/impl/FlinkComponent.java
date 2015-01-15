@@ -21,12 +21,23 @@ package com.yahoo.labs.flink.topology.impl;
  */
 
 
-import com.yahoo.labs.samoa.topology.IProcessingItem;
+import org.apache.flink.streaming.api.datastream.DataStream;
 
 /**
  * Common interface of FlinkEntranceProcessingItem and FlinkProcessingItem
  */
-public interface FlinkProcessingNode extends IProcessingItem {
+public interface FlinkComponent {
 
+	/**
+	 * An initiation of the node. It should create the right invokables and apply the appropriate
+	 * stream transformations
+	 */
+	public void initialise();
+
+	public boolean canBeInitialised();
+
+	public boolean isInitialised();
+
+	public DataStream getOutStream();
 
 }

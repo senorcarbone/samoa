@@ -21,10 +21,48 @@ package com.yahoo.labs.flink.topology.impl;
  */
 
 
+import com.yahoo.labs.flink.Utils;
+import com.yahoo.labs.samoa.core.EntranceProcessor;
 import com.yahoo.labs.samoa.topology.AbstractEntranceProcessingItem;
-
-import java.io.Serializable;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.function.source.SourceFunction;
+import org.apache.flink.util.Collector;
 
 public class FlinkEntranceProcessingItem extends AbstractEntranceProcessingItem
-		implements FlinkProcessingNode, Serializable {
+		implements FlinkComponent {
+
+	private DataStream outStream;
+
+	public FlinkEntranceProcessingItem(EntranceProcessor proc) {
+		super(proc);
+	}
+
+	@Override
+	public void initialise() {
+		outStream = StreamExecutionEnvironment.getExecutionEnvironment().addSource(new SourceFunction() {
+			@Override
+			public void invoke(Collector collector) throws Exception {
+				EntranceProcessor proc = getProcessor();
+				while (proc.hasNext()) {
+					collector.collect(new Utils.SamoaType(proc.nextEvent(), getName()));
+				}
+			}
+		});
+	}
+
+	@Override
+	public boolean canBeInitialised() {
+		return true;
+	}
+
+	@Override
+	public boolean isInitialised() {
+		return outStream != null;
+	}
+
+	@Override
+	public DataStream getOutStream() {
+		return outStream;
+	}
 }

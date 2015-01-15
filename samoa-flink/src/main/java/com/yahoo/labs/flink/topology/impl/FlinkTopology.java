@@ -21,8 +21,10 @@ package com.yahoo.labs.flink.topology.impl;
  */
 
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.yahoo.labs.samoa.topology.AbstractTopology;
-import com.yahoo.labs.samoa.topology.IProcessingItem;
+import com.yahoo.labs.samoa.topology.EntranceProcessingItem;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
@@ -30,24 +32,41 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  */
 public class FlinkTopology extends AbstractTopology {
 
-	private StreamExecutionEnvironment environment;
+	private final StreamExecutionEnvironment env;
 
-	public FlinkTopology(String name) {
+	public FlinkTopology(String name, StreamExecutionEnvironment env) {
 		super(name);
-		this.environment = StreamExecutionEnvironment.getExecutionEnvironment();
-	}
-
-	@Override
-	public void addProcessingItem(IProcessingItem procItem) {
-		super.addProcessingItem(procItem);
-	}
-
-	@Override
-	public void addProcessingItem(IProcessingItem procItem, int parallelismHint) {
-		super.addProcessingItem(procItem, parallelismHint);
+		this.env = env;
 	}
 
 	public StreamExecutionEnvironment getEnvironment() {
-		return environment;
+		return env;
 	}
+
+	public void build() {
+
+		for (EntranceProcessingItem src : getEntranceProcessingItems()) {
+			((FlinkEntranceProcessingItem) src).initialise();
+		}
+
+		initPIs(ImmutableList.copyOf((Iterable<? extends FlinkComponent>) getProcessingItems()));
+
+	}
+
+	private static void initPIs(ImmutableList<FlinkComponent> flinkComponents) {
+		if (flinkComponents.isEmpty()) return;
+
+		for (FlinkComponent comp : flinkComponents) {
+			if (comp.canBeInitialised()) comp.initialise();
+		}
+
+		initPIs((ImmutableList<FlinkComponent>) Iterables.filter(flinkComponents, new com.google.common.base.Predicate<FlinkComponent>() {
+			@Override
+			public boolean apply(FlinkComponent flinkComponent) {
+				return !flinkComponent.isInitialised();
+			}
+		}));
+	}
+
+
 }

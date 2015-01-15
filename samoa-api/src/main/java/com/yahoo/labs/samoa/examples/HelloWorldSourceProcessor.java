@@ -20,11 +20,11 @@ package com.yahoo.labs.samoa.examples;
  * #L%
  */
 
-import java.util.Random;
-
 import com.yahoo.labs.samoa.core.ContentEvent;
 import com.yahoo.labs.samoa.core.EntranceProcessor;
 import com.yahoo.labs.samoa.core.Processor;
+
+import java.util.Random;
 
 /**
  * Example {@link EntranceProcessor} that generates a stream of random integers.
@@ -36,7 +36,7 @@ public class HelloWorldSourceProcessor implements EntranceProcessor {
     private final long maxInst;
     private long count;
 
-    public HelloWorldSourceProcessor(long maxInst) {
+    public  HelloWorldSourceProcessor(long maxInst) {
         this.maxInst = maxInst;
     }
 

@@ -27,39 +27,32 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
  * An implementation of SAMOA's ComponentFactory for Apache Flink
- *
  */
-public class FlinkComponentFactory implements ComponentFactory{
+public class FlinkComponentFactory implements ComponentFactory {
 
-
-	private final StreamExecutionEnvironment environment;
-
-	public FlinkComponentFactory(StreamExecutionEnvironment env) {
-		this.environment = env;
-	}
 
 	@Override
 	public ProcessingItem createPi(Processor processor) {
-		return null;
+		return new FlinkProcessingItem(processor);
 	}
 
 	@Override
 	public ProcessingItem createPi(Processor processor, int paralellism) {
-		return null;
+		return new FlinkProcessingItem(processor, paralellism);
 	}
 
 	@Override
 	public EntranceProcessingItem createEntrancePi(EntranceProcessor entranceProcessor) {
-		return null;
+		return new FlinkEntranceProcessingItem(entranceProcessor);
 	}
 
 	@Override
 	public Stream createStream(IProcessingItem sourcePi) {
-		return null;
+		return new FlinkStream((FlinkProcessingItem) sourcePi);
 	}
 
 	@Override
 	public Topology createTopology(String topoName) {
-		return null;
+		return new FlinkTopology(topoName, StreamExecutionEnvironment.getExecutionEnvironment());
 	}
 }
