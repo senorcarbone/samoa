@@ -30,29 +30,36 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  */
 public class FlinkComponentFactory implements ComponentFactory {
 
+	private StreamExecutionEnvironment env;
 
-	@Override
-	public ProcessingItem createPi(Processor processor) {
-		return new FlinkProcessingItem(processor);
+	public FlinkComponentFactory(StreamExecutionEnvironment env) {
+		this.env = env;
 	}
 
 	@Override
-	public ProcessingItem createPi(Processor processor, int paralellism) {
-		return new FlinkProcessingItem(processor, paralellism);
+	public ProcessingItem createPi(Processor processor) {
+		return new FlinkProcessingItem(env, processor);
+	}
+
+	@Override
+	public ProcessingItem createPi(Processor processor, int parallelism) {
+		return new FlinkProcessingItem(env, processor, parallelism);
 	}
 
 	@Override
 	public EntranceProcessingItem createEntrancePi(EntranceProcessor entranceProcessor) {
-		return new FlinkEntranceProcessingItem(entranceProcessor);
+		return new FlinkEntranceProcessingItem(env, entranceProcessor);
 	}
 
 	@Override
 	public Stream createStream(IProcessingItem sourcePi) {
-		return new FlinkStream((FlinkProcessingItem) sourcePi);
+		if (sourcePi instanceof FlinkProcessingItem)
+			return ((FlinkProcessingItem) sourcePi).createStream();
+		else return new FlinkStream((FlinkComponent) sourcePi);
 	}
 
 	@Override
-	public Topology createTopology(String topoName) {
-		return new FlinkTopology(topoName, StreamExecutionEnvironment.getExecutionEnvironment());
+	public Topology createTopology(String topologyName) {
+		return new FlinkTopology(topologyName, env);
 	}
 }

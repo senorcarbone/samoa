@@ -1,10 +1,10 @@
-package com.yahoo.labs.samoa.examples;
+package com.yahoo.labs.flink.topology.impl;
 
 /*
  * #%L
  * SAMOA
  * %%
- * Copyright (C) 2013 - 2014 Yahoo! Inc.
+ * Copyright (C) 2013 - 2015 Yahoo! Inc.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,21 @@ package com.yahoo.labs.samoa.examples;
  * #L%
  */
 
+
 import com.yahoo.labs.samoa.core.ContentEvent;
-import com.yahoo.labs.samoa.core.Processor;
+import org.apache.flink.api.java.tuple.Tuple3;
 
-/**
- * Example {@link Processor} that simply prints the received events to standard output.
- */
-public class HelloWorldDestinationProcessor implements Processor {
-
-	public HelloWorldDestinationProcessor() {
+public class SamoaType extends Tuple3<String, ContentEvent, String> {
+	public SamoaType() {
 		super();
 	}
 
-	@Override
-	public boolean process(ContentEvent event) {
-		return true;
+	private SamoaType(String key, ContentEvent event, String streamId) {
+		super(key, event, streamId);
 	}
 
-	@Override
-	public void onCreate(int id) {
-	}
-
-	@Override
-	public Processor newProcessor(Processor p) {
-		return new HelloWorldDestinationProcessor();
+	public static SamoaType of(ContentEvent event, String streamId) {
+		String key = event.getKey() == null ? "none" : event.getKey();
+		return new SamoaType(key, event, streamId);
 	}
 }

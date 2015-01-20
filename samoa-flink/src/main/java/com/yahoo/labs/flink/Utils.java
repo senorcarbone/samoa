@@ -21,20 +21,18 @@ package com.yahoo.labs.flink;
  */
 
 
-import com.yahoo.labs.samoa.core.ContentEvent;
-import org.apache.flink.api.java.tuple.Tuple3;
+import com.yahoo.labs.flink.topology.impl.SamoaType;
 import org.apache.flink.streaming.api.datastream.DataStream;
 
 import java.util.List;
 
 public class Utils {
 
-	public static final String LOCAL_MODE = "local";
-	public static final String REMOTE_MODE = "remote";
+	private static final String LOCAL_MODE = "local";
 
 	// FLAGS
-	public static final String MODE_FLAG = "--mode";
-	public static final String DEFAULT_PARALLELISM = "--parallelism";
+	private static final String MODE_FLAG = "-m";
+	private static final String PARALLELISM_FLAG = "-p";
 
 	//config values
 	public static boolean isLocal = true;
@@ -44,12 +42,6 @@ public class Utils {
 	public static int parallelism = 1;
 
 	public enum Partitioning {SHUFFLE, ALL, GROUP}
-
-	public static class SamoaType extends Tuple3<String, ContentEvent, String> {
-		public SamoaType(ContentEvent event, String streamId) {
-			super(event.getKey(), event, streamId);
-		}
-	}
 
 	public static DataStream subscribe(DataStream<SamoaType> stream, Partitioning partitioning) {
 		switch (partitioning) {
@@ -64,17 +56,19 @@ public class Utils {
 	}
 
 	public static void extractFlinkArguments(List<String> tmpargs) {
-		for (int i = tmpargs.size() - 1; i >= 0; i--) {
-			String arg = tmpargs.get(i).trim();
-			String[] splitted = arg.split("=", 2);
-
-			if (splitted.length >= 2) {
-				if (MODE_FLAG.equals(splitted[0])) {
-					isLocal = LOCAL_MODE.equals(splitted[1]);
-					tmpargs.remove(i);
-				}
+		for (int i = 1; i < tmpargs.size() - 1; i = i + 2) {
+			String choice = tmpargs.get(i).trim();
+			String value = tmpargs.get(i + 1).trim();
+			switch (choice) {
+				case PARALLELISM_FLAG:
+					parallelism = Integer.valueOf(value);
+					break;
+				case MODE_FLAG:
+					if (!(LOCAL_MODE.equals(value))) isLocal = false;
+					break;
+				case "-i":
+					//TODO::refactor to take into consideration all possible arguments.
 			}
 		}
 	}
-
 }

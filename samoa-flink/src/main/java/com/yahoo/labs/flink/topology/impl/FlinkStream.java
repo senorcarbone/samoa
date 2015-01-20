@@ -20,11 +20,10 @@ package com.yahoo.labs.flink.topology.impl;
  * #L%
  */
 
-import com.yahoo.labs.flink.Utils;
 import com.yahoo.labs.samoa.core.ContentEvent;
 import com.yahoo.labs.samoa.topology.AbstractStream;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SplitDataStream;
 
 
 /**
@@ -38,20 +37,14 @@ public class FlinkStream extends AbstractStream implements FlinkComponent {
 
 	public FlinkStream(FlinkComponent sourcePi) {
 		this.procItem = sourcePi;
-		setStreamId(String.valueOf(outputCounter++));
-		initialise();
+		setStreamId("stream-" + Integer.toString(outputCounter++));
 	}
 
 	@Override
 	public void initialise() {
-
 		if (procItem instanceof FlinkProcessingItem) {
-			dataStream = ((FlinkProcessingItem) procItem).getOutStream().select(getStreamId()).map(new MapFunction<Utils.SamoaType, Utils.SamoaType>() {
-				@Override
-				public Utils.SamoaType map(Utils.SamoaType samoaType) throws Exception {
-					return samoaType;
-				}
-			});
+			dataStream = ((SplitDataStream<SamoaType>) (((FlinkProcessingItem) procItem)
+					.getOutStream())).select(getStreamId());
 		} else
 			dataStream = procItem.getOutStream();
 	}

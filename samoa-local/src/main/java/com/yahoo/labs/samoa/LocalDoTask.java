@@ -78,8 +78,8 @@ public class LocalDoTask {
             task = ClassOption.cliStringToObject(cliString.toString(), Task.class, extraOptions);
             logger.info("Successfully instantiating {}", task.getClass().getCanonicalName());
         } catch (Exception e) {
-            logger.error("Fail to initialize the task", e);
-            System.out.println("Fail to initialize the task" + e);
+            logger.error("Fail to initialize the task: ", e);
+            System.out.println("Fail to initialize the task: " + e);
             return;
         }
         task.setFactory(new SimpleComponentFactory());
