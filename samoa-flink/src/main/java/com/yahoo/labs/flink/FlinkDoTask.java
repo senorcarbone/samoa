@@ -21,16 +21,21 @@ package com.yahoo.labs.flink;
  */
 
 import com.github.javacliparser.ClassOption;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.yahoo.labs.flink.topology.impl.FlinkComponentFactory;
+import com.yahoo.labs.flink.topology.impl.FlinkProcessingItem;
+import com.yahoo.labs.flink.topology.impl.FlinkStream;
 import com.yahoo.labs.flink.topology.impl.FlinkTopology;
 import com.yahoo.labs.samoa.tasks.Task;
+import com.yahoo.labs.samoa.topology.ProcessingItem;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -74,6 +79,9 @@ public class FlinkDoTask {
 		logger.info("Going to initialize the task\n");
 		task.init();
 
+		List<List<Integer>> circles = extractTopologyGraph((FlinkTopology) task.getTopology());
+		System.out.println("Circles found in the graph: " + circles);
+
 		logger.info("Going to build the topology\n");
 		((FlinkTopology) task.getTopology()).build();
 
@@ -82,5 +90,44 @@ public class FlinkDoTask {
 
 	}
 
+	private static List<List<Integer>> extractTopologyGraph(FlinkTopology topology){
+		List<FlinkProcessingItem> pis = Lists.newArrayList(Iterables.filter(topology.getProcessingItems(), FlinkProcessingItem.class));
+		List<Integer>[] graph = new List[pis.size()];
+		List<String>[] inStreams = new ArrayList[pis.size()];
+		Map<String,Integer> outStreams = new HashMap<>();
+
+		for (int i=0;i<pis.size();i++) {
+			graph[i] = new ArrayList<Integer>();
+			inStreams[i] = new ArrayList<String>();
+		}
+
+		for (FlinkProcessingItem pi: pis){
+			//get output streams of the processing items: <SteamId,sourcePI>
+			for (FlinkStream os :  pi.getOutputStreams()) {
+				outStreams.put(os.getStreamId(), pi.getPiID());
+			}
+			//get input streams of the processing items: [PI]-> [streamId1,streamId2,...]
+			for (Tuple2<FlinkStream,Utils.Partitioning> is :  pi.getInputStreams()) {
+				inStreams[pi.getPiID()].add(is.f0.getStreamId());
+			}
+		}
+
+		int node ;
+		for (int i=0;i<pis.size();i++){ //for each processing item(PI)
+			for (int j=0;j<inStreams[i].size();j++){ // for all input streams to a PI
+				if (outStreams.containsKey(inStreams[i].get(j))){ //if it doesn't come from an Entrance PI
+					node = outStreams.get(inStreams[i].get(j)); // the source node of the input stream
+					graph[node].add(i);                        // has this PI as neighbor
+				}
+			}
+		}
+		for (int g=0;g<graph.length;g++)
+			System.out.println(graph[g].toString());
+
+		CircleDetection detCircles = new CircleDetection();
+		List<List<Integer>> circles = detCircles.getCircles(graph); //detect circles in the topology
+
+		return circles;
+	}
 
 }
