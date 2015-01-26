@@ -107,6 +107,8 @@ public class InstanceInformation implements Serializable{
     public void setAttributes(List<Attribute> v) {
         this.attributes = v;
     }
-    
-    
+
+    public List<Attribute> getAttributes() {
+        return attributes;
+    }
 }

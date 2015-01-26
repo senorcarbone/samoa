@@ -25,18 +25,23 @@ import com.yahoo.labs.samoa.topology.AbstractStream;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SplitDataStream;
 
+import java.io.Serializable;
+
 
 /**
  * A stream for SAMOA based on Apache Flink's DataStream
  */
-public class FlinkStream extends AbstractStream implements FlinkComponent {
+public class FlinkStream extends AbstractStream implements FlinkComponent, Serializable {
 
 	private static int outputCounter = 0;
 	private FlinkComponent procItem;
-	private DataStream dataStream;
+	private transient DataStream dataStream;
+	private int sourcePiId ;
 
 	public FlinkStream(FlinkComponent sourcePi) {
 		this.procItem = sourcePi;
+		if (sourcePi instanceof FlinkEntranceProcessingItem) this.sourcePiId = -1;//mark it as incoming stream from an Entrance PI
+		if (sourcePi instanceof FlinkProcessingItem) this.sourcePiId = ((FlinkProcessingItem) sourcePi).getPiID();
 		setStreamId("stream-" + Integer.toString(outputCounter++));
 	}
 
@@ -64,10 +69,12 @@ public class FlinkStream extends AbstractStream implements FlinkComponent {
 		return dataStream;
 	}
 
-
 	@Override
 	public void put(ContentEvent event) {
 		((FlinkProcessingItem) procItem).putToStream(event, this);
 	}
 
+	public int getSourcePiId() {
+		return sourcePiId;
+	}
 }

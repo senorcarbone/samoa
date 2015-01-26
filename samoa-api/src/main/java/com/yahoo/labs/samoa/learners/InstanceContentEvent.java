@@ -76,8 +76,12 @@ final public class InstanceContentEvent implements ContentEvent {
 	 * 
 	 * @return the instance.
 	 */
-	public Instance getInstance() {
+	public SerializableInstance getInstance() {
 		return instance;
+	}
+
+	public void setInstance(SerializableInstance instance) {
+		this.instance = instance;
 	}
 
 	/**
@@ -87,6 +91,10 @@ final public class InstanceContentEvent implements ContentEvent {
 	 */
 	public long getInstanceIndex() {
 		return instanceIndex;
+	}
+
+	public void setInstanceIndex(long instanceIndex) {
+		this.instanceIndex = instanceIndex;
 	}
 
 	/**
@@ -107,7 +115,7 @@ final public class InstanceContentEvent implements ContentEvent {
 	public boolean isTraining() {
 		return isTraining;
 	}
-	
+
 	/**
 	 * Set training flag.
 	 *
@@ -116,7 +124,11 @@ final public class InstanceContentEvent implements ContentEvent {
 	public void setTraining(boolean training) {
 		this.isTraining = training;
 	}
-	
+
+	public void setIsTraining(boolean training) {
+		this.isTraining = training;
+	}
+
 	/**
 	 * Checks if is testing.
 	 *
@@ -134,6 +146,11 @@ final public class InstanceContentEvent implements ContentEvent {
 	public void setTesting(boolean testing) {
 		this.isTesting = testing;
 	}
+
+	public void setIsTesting(boolean testing) {
+		this.isTesting = testing;
+	}
+
 
 	/**
 	 * Gets the classifier index.
@@ -202,6 +219,12 @@ final public class InstanceContentEvent implements ContentEvent {
 		this.isLast = isLast;
 	}
 
-	
-	
+	public void setIsLast(boolean isLast) {
+		this.isLast = isLast;
+	}
+
+	public boolean isLast() {
+		return isLast;
+	}
+
 }

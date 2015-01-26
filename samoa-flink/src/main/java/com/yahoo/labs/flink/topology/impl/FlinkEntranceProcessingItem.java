@@ -39,12 +39,15 @@ public class FlinkEntranceProcessingItem extends AbstractEntranceProcessingItem
 	private transient StreamExecutionEnvironment env;
 	private transient DataStream outStream;
 	private transient TypeInformation<? extends SamoaType> st;
+	private static int numberOfEntrancePIs = 0;
+	private int piID ;
 
-	private ContentEvent firstEvent = null;
+	private ContentEvent firstEvent;
 
 	public FlinkEntranceProcessingItem(StreamExecutionEnvironment env, EntranceProcessor proc) {
 		super(proc);
 		this.env = env;
+		this.piID = numberOfEntrancePIs++;
 	}
 
 	@Override
@@ -85,6 +88,10 @@ public class FlinkEntranceProcessingItem extends AbstractEntranceProcessingItem
 	@Override
 	public boolean isInitialised() {
 		return outStream != null;
+	}
+
+	public int getPiID() {
+		return piID;
 	}
 
 	@Override

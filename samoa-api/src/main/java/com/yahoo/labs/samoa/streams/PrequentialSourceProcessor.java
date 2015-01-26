@@ -43,7 +43,8 @@ import com.yahoo.labs.samoa.moa.streams.InstanceStream;
  * @author Arinto Murdopo
  * 
  */
-public final class PrequentialSourceProcessor implements EntranceProcessor {
+public final class
+        PrequentialSourceProcessor implements EntranceProcessor {
 
     private static final long serialVersionUID = 4169053337917578558L;
 
@@ -108,6 +109,7 @@ public final class PrequentialSourceProcessor implements EntranceProcessor {
                         TimeUnit.MICROSECONDS);
             }
         }
+        System.err.println("LOG :: Source Processor :: "+ contentEvent.toString());
         return contentEvent;
     }
     

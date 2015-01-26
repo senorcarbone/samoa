@@ -47,7 +47,7 @@ final public class InstancesContentEvent implements ContentEvent {
 	private long instanceIndex;
 	private int classifierIndex;
 	private int evaluationIndex;
-	//private SerializableInstance instance;
+	private SerializableInstance instance;
 	private boolean isTraining;
 	private boolean isTesting;
 	private boolean isLast = false;
@@ -168,6 +168,14 @@ final public class InstancesContentEvent implements ContentEvent {
 				+ this.getClassifierIndex());
 	}
 
+	public SerializableInstance getInstance() {
+		return instance;
+	}
+
+	public void setInstance(SerializableInstance instance) {
+		this.instance = instance;
+	}
+
 	@Override
 	public String getKey() {
 		//System.out.println("InstanceContentEvent "+Long.toString(this.instanceIndex));
@@ -188,6 +196,27 @@ final public class InstancesContentEvent implements ContentEvent {
 		this.isLast = isLast;
 	}
 
-	
-	
+	public void setInstanceIndex(long instanceIndex) {
+		this.instanceIndex = instanceIndex;
+	}
+
+	public void setTraining(boolean isTraining) {
+		this.isTraining = isTraining;
+	}
+
+	public void setTesting(boolean isTesting) {
+		this.isTesting = isTesting;
+	}
+
+	public boolean isLast() {
+		return isLast;
+	}
+
+	public List<Instance> getInstanceList() {
+		return instanceList;
+	}
+
+	public void setInstanceList(List<Instance> instanceList) {
+		this.instanceList = instanceList;
+	}
 }

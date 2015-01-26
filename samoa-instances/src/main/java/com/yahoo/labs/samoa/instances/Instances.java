@@ -243,4 +243,28 @@ public class Instances implements Serializable {
 		return text.toString();
 
 	}
+
+	public InstanceInformation getInstanceInformation() {
+		return instanceInformation;
+	}
+
+	public void setInstanceInformation(InstanceInformation instanceInformation) {
+		this.instanceInformation = instanceInformation;
+	}
+
+	public List<Instance> getInstances() {
+		return instances;
+	}
+
+	public void setInstances(List<Instance> instances) {
+		this.instances = instances;
+	}
+
+	public int getClassAttribute() {
+		return classAttribute;
+	}
+
+	public void setClassAttribute(int classAttribute) {
+		this.classAttribute = classAttribute;
+	}
 }
