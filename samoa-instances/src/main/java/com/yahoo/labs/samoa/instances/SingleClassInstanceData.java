@@ -82,5 +82,12 @@ public class SingleClassInstanceData implements InstanceData {
     public void setValue(int m_numAttributes, double d) {
         this.classValue = d;
     }
-    
+
+    public double getClassValue() {
+        return classValue;
+    }
+
+    public void setClassValue(double classValue) {
+        this.classValue = classValue;
+    }
 }

@@ -63,7 +63,7 @@ final public class InstancesContentEvent implements ContentEvent {
 	 * @param instance the instance
 	 * @param isTraining the is training
 	 */
-	public InstancesContentEvent(long index,// Instance instance, 
+	public InstancesContentEvent(long index,// Instance instance,
 			boolean isTraining, boolean isTesting) {
 		/*if (instance != null) {
 			this.instance = new SerializableInstance(instance);

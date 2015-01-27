@@ -39,6 +39,7 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.datastream.SplitDataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,18 +101,23 @@ public class FlinkTopology extends AbstractTopology {
 		})));
 	}
 
-	private static boolean circleCanBeInitialised(int circleId){
-		//get the head and tail of circle
-		FlinkProcessingItem tail = FlinkDoTask.circles.get(circleId).get(0);
-		FlinkProcessingItem head = FlinkDoTask.circles.get(circleId).get(FlinkDoTask.circles.size());
 
-		for (Tuple3<FlinkStream, Utils.Partitioning,Integer> inputStream : head.getInputStreams()) {
-			//if a inputStream is not initialized AND inputStream is not any of the output streams of tail PI
-			if ((!inputStream.f0.isInitialised()) && (inputStream.f2!=tail.getPiID())) return false;
+	private static boolean circleCanBeInitialised(int circleId){
+
+		List<Integer> circleIds = new ArrayList<>();
+		for (FlinkProcessingItem pi : FlinkDoTask.circles.get(circleId)){
+			circleIds.add(pi.getId());
+		}
+
+		//check that all incoming to the circle streams are initialised
+		for (FlinkProcessingItem procItem : FlinkDoTask.circles.get(circleId)){
+			for (Tuple3<FlinkStream, Utils.Partitioning,Integer> inputStream : procItem.getInputStreams()) {
+				//if a inputStream is not initialized AND source of inputStream is not in the circle
+				if ((!inputStream.f0.isInitialised())&&(!circleIds.contains(inputStream.f2)))return false;
+			}
 		}
 		return true;
 	}
-
 
 	private static void initialiseCircle(int circleId){
 		//get the head and tail of circle

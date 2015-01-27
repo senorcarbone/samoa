@@ -281,4 +281,5 @@ public class SingleLabelInstance implements Instance {
 	public void setInstanceInformation(InstancesHeader instanceInformation) {
 		this.instanceInformation = instanceInformation;
 	}
+
 }

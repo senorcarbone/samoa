@@ -40,8 +40,7 @@ public class FlinkStream extends AbstractStream implements FlinkComponent, Seria
 
 	public FlinkStream(FlinkComponent sourcePi) {
 		this.procItem = sourcePi;
-		if (sourcePi instanceof FlinkEntranceProcessingItem) this.sourcePiId = -1;//mark it as incoming stream from an Entrance PI
-		if (sourcePi instanceof FlinkProcessingItem) this.sourcePiId = ((FlinkProcessingItem) sourcePi).getPiID();
+		this.sourcePiId = sourcePi.getId();
 		setStreamId("stream-" + Integer.toString(outputCounter++));
 	}
 
@@ -72,6 +71,11 @@ public class FlinkStream extends AbstractStream implements FlinkComponent, Seria
 	@Override
 	public void put(ContentEvent event) {
 		((FlinkProcessingItem) procItem).putToStream(event, this);
+	}
+
+	@Override
+	public int getId(){
+		return -1; //dummy number shows that it cones from a Stream
 	}
 
 	public int getSourcePiId() {

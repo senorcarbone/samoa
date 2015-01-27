@@ -231,4 +231,81 @@ public class EvaluatorProcessor implements Processor {
 			return new EvaluatorProcessor(this);
 		}
 	}
+
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public static String getOrderingMeasurementName() {
+		return ORDERING_MEASUREMENT_NAME;
+	}
+
+	public PerformanceEvaluator getEvaluator() {
+		return evaluator;
+	}
+
+	public int getSamplingFrequency() {
+		return samplingFrequency;
+	}
+
+	public File getDumpFile() {
+		return dumpFile;
+	}
+
+	public PrintStream getImmediateResultStream() {
+		return immediateResultStream;
+	}
+
+	public void setImmediateResultStream(PrintStream immediateResultStream) {
+		this.immediateResultStream = immediateResultStream;
+	}
+
+	public boolean isFirstDump() {
+		return firstDump;
+	}
+
+	public void setFirstDump(boolean firstDump) {
+		this.firstDump = firstDump;
+	}
+
+	public long getExperimentStart() {
+		return experimentStart;
+	}
+
+	public void setExperimentStart(long experimentStart) {
+		this.experimentStart = experimentStart;
+	}
+
+	public long getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public long getSampleStart() {
+		return sampleStart;
+	}
+
+	public void setSampleStart(long sampleStart) {
+		this.sampleStart = sampleStart;
+	}
+
+	public LearningCurve getLearningCurve() {
+		return learningCurve;
+	}
+
+	public void setLearningCurve(LearningCurve learningCurve) {
+		this.learningCurve = learningCurve;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

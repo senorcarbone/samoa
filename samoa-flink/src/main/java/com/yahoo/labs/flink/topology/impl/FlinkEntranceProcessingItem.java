@@ -90,8 +90,9 @@ public class FlinkEntranceProcessingItem extends AbstractEntranceProcessingItem
 		return outStream != null;
 	}
 
-	public int getPiID() {
-		return piID;
+	@Override
+	public int getId() {
+		return -1; // dummy number shows that it cones from an Entrance PI
 	}
 
 	@Override

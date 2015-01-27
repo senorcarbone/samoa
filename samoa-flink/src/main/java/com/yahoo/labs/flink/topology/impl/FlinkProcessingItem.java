@@ -47,7 +47,6 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 	private transient DataStream<SamoaType> inStream;
 	private transient DataStream<SamoaType> outStream;
 	private transient List<FlinkStream> outputStreams = Lists.newArrayList();
-	//private transient List<Tuple2<FlinkStream, Partitioning>> inputStreams = Lists.newArrayList();
 	private transient List<Tuple3<FlinkStream, Partitioning,Integer>> inputStreams = Lists.newArrayList();
 	private int parallelism;
 	private static int numberOfPIs = 0;
@@ -85,7 +84,6 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 
 	@Override
 	public void initialise() {
-		//for (Tuple2<FlinkStream, Partitioning> inputStream : inputStreams) {
 		for (Tuple3<FlinkStream, Partitioning,Integer> inputStream : inputStreams) {
 			try{
 				if (inStream == null) {
@@ -108,7 +106,6 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 
 	@Override
 	public boolean canBeInitialised() {
-		//for (Tuple2<FlinkStream, Partitioning> inputStream : inputStreams) {
 		for (Tuple3<FlinkStream, Partitioning,Integer> inputStream : inputStreams) {
 				if (!inputStream.f0.isInitialised()) return false;
 		}
@@ -127,13 +124,12 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 
 	@Override
 	public void invoke() throws Exception {
-		System.err.println("\n-------------------------WTF-------------------------: " + this.getPiID());
+		System.err.println("\n-------------------------WTF-------------------------: " + this.getId());
 		while (readNext() != null) {
 			System.err.println("In the while");
 			System.err.println("Next :: "+nextRecord.getObject().toString());
 			fun.processEvent(nextRecord.getObject().f1);
 		}
-
 	}
 
 	@Override
@@ -144,14 +140,12 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 
 	@Override
 	public ProcessingItem connectInputKeyStream(Stream inputStream) {
-
 		inputStreams.add(new Tuple3<>((FlinkStream) inputStream, Partitioning.GROUP,((FlinkStream) inputStream).getSourcePiId()));
 		return this;
 	}
 
 	@Override
 	public ProcessingItem connectInputAllStream(Stream inputStream) {
-		//inputStreams.add(new Tuple2<>((FlinkStream) inputStream, Partitioning.ALL));
 		inputStreams.add(new Tuple3<>((FlinkStream) inputStream, Partitioning.ALL,((FlinkStream) inputStream).getSourcePiId()));
 		return this;
 	}
@@ -177,7 +171,8 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 		this.outStream = outStream;
 	}
 
-	public int getPiID() {
+	@Override
+	public int getId() {
 		return piID;
 	}
 

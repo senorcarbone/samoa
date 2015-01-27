@@ -203,4 +203,142 @@ public class PrequentialEvaluation implements Task, Configurable {
     	// Default to BasicClassificationPerformanceEvaluator for all other cases
     	return new BasicClassificationPerformanceEvaluator();
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ClassOption getLearnerOption() {
+        return learnerOption;
+    }
+
+    public void setLearnerOption(ClassOption learnerOption) {
+        this.learnerOption = learnerOption;
+    }
+
+    public ClassOption getStreamTrainOption() {
+        return streamTrainOption;
+    }
+
+    public void setStreamTrainOption(ClassOption streamTrainOption) {
+        this.streamTrainOption = streamTrainOption;
+    }
+
+    public ClassOption getEvaluatorOption() {
+        return evaluatorOption;
+    }
+
+    public void setEvaluatorOption(ClassOption evaluatorOption) {
+        this.evaluatorOption = evaluatorOption;
+    }
+
+    public IntOption getInstanceLimitOption() {
+        return instanceLimitOption;
+    }
+
+    public void setInstanceLimitOption(IntOption instanceLimitOption) {
+        this.instanceLimitOption = instanceLimitOption;
+    }
+
+    public IntOption getTimeLimitOption() {
+        return timeLimitOption;
+    }
+
+    public void setTimeLimitOption(IntOption timeLimitOption) {
+        this.timeLimitOption = timeLimitOption;
+    }
+
+    public IntOption getSampleFrequencyOption() {
+        return sampleFrequencyOption;
+    }
+
+    public void setSampleFrequencyOption(IntOption sampleFrequencyOption) {
+        this.sampleFrequencyOption = sampleFrequencyOption;
+    }
+
+    public StringOption getEvaluationNameOption() {
+        return evaluationNameOption;
+    }
+
+    public void setEvaluationNameOption(StringOption evaluationNameOption) {
+        this.evaluationNameOption = evaluationNameOption;
+    }
+
+    public FileOption getDumpFileOption() {
+        return dumpFileOption;
+    }
+
+    public void setDumpFileOption(FileOption dumpFileOption) {
+        this.dumpFileOption = dumpFileOption;
+    }
+
+    public IntOption getSourceDelayOption() {
+        return sourceDelayOption;
+    }
+
+    public void setSourceDelayOption(IntOption sourceDelayOption) {
+        this.sourceDelayOption = sourceDelayOption;
+    }
+
+    public IntOption getBatchDelayOption() {
+        return batchDelayOption;
+    }
+
+    public void setBatchDelayOption(IntOption batchDelayOption) {
+        this.batchDelayOption = batchDelayOption;
+    }
+
+    public PrequentialSourceProcessor getPreqSource() {
+        return preqSource;
+    }
+
+    public void setPreqSource(PrequentialSourceProcessor preqSource) {
+        this.preqSource = preqSource;
+    }
+
+    public Stream getSourcePiOutputStream() {
+        return sourcePiOutputStream;
+    }
+
+    public void setSourcePiOutputStream(Stream sourcePiOutputStream) {
+        this.sourcePiOutputStream = sourcePiOutputStream;
+    }
+
+    public Learner getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier(Learner classifier) {
+        this.classifier = classifier;
+    }
+
+    public EvaluatorProcessor getEvaluator() {
+        return evaluator;
+    }
+
+    public void setEvaluator(EvaluatorProcessor evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    public Topology getPrequentialTopology() {
+        return prequentialTopology;
+    }
+
+    public void setPrequentialTopology(Topology prequentialTopology) {
+        this.prequentialTopology = prequentialTopology;
+    }
+
+    public TopologyBuilder getBuilder() {
+        return builder;
+    }
+
+    public void setBuilder(TopologyBuilder builder) {
+        this.builder = builder;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static void setLogger(Logger logger) {
+        PrequentialEvaluation.logger = logger;
+    }
 }

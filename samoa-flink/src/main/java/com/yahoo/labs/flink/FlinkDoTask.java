@@ -102,11 +102,11 @@ public class FlinkDoTask {
 		for (int i=0;i<pis.size();i++) {
 			graph[i] = new ArrayList<Integer>();
 		}
-		//construct the graph of hte topology for the Processing Items (No entrance pi is included)
+		//construct the graph of the topology for the Processing Items (No entrance pi is included)
 		for (FlinkProcessingItem pi: pis) {
-			processingItems[pi.getPiID()] = pi; //ordered processing items
+			processingItems[pi.getId()] = pi; //ordered processing items
 			for (Tuple3<FlinkStream, Utils.Partitioning, Integer> is : pi.getInputStreams()) {
-				if (is.f2 != -1) graph[is.f2].add(pi.getPiID());
+				if (is.f2 != -1) graph[is.f2].add(pi.getId());
 			}
 		}
 		for (int g=0;g<graph.length;g++)

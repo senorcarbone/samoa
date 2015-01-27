@@ -109,7 +109,7 @@ public final class
                         TimeUnit.MICROSECONDS);
             }
         }
-        System.err.println("LOG :: Source Processor :: "+ contentEvent.toString());
+        System.out.println("LOG :: Source Processor :: " + contentEvent.getInstance().toString());
         return contentEvent;
     }
     
@@ -227,5 +227,97 @@ public final class
     	public void run() {
     		processor.increaseReadyEventIndex();
     	}
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public boolean isInited() {
+        return isInited;
+    }
+
+    public void setInited(boolean isInited) {
+        this.isInited = isInited;
+    }
+
+    public void setStreamSource(StreamSource streamSource) {
+        this.streamSource = streamSource;
+    }
+
+    public Instance getFirstInstance() {
+        return firstInstance;
+    }
+
+    public void setFirstInstance(Instance firstInstance) {
+        this.firstInstance = firstInstance;
+    }
+
+    public int getNumberInstances() {
+        return numberInstances;
+    }
+
+    public void setNumberInstances(int numberInstances) {
+        this.numberInstances = numberInstances;
+    }
+
+    public int getNumInstanceSent() {
+        return numInstanceSent;
+    }
+
+    public void setNumInstanceSent(int numInstanceSent) {
+        this.numInstanceSent = numInstanceSent;
+    }
+
+    public InstanceStream getSourceStream() {
+        return sourceStream;
+    }
+
+    public void setSourceStream(InstanceStream sourceStream) {
+        this.sourceStream = sourceStream;
+    }
+
+    public ScheduledExecutorService getTimer() {
+        return timer;
+    }
+
+    public void setTimer(ScheduledExecutorService timer) {
+        this.timer = timer;
+    }
+
+    public ScheduledFuture<?> getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(ScheduledFuture<?> schedule) {
+        this.schedule = schedule;
+    }
+
+    public int getReadyEventIndex() {
+        return readyEventIndex;
+    }
+
+    public void setReadyEventIndex(int readyEventIndex) {
+        this.readyEventIndex = readyEventIndex;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
+
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }
