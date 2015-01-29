@@ -124,9 +124,9 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 
 	@Override
 	public void invoke() throws Exception {
-		System.err.println("\n-------------------------WTF-------------------------: " + this.getId());
+		System.err.println("piId: " +this.getId()+", "+ this.getProcessor().getClass().getCanonicalName());
 		while (readNext() != null) {
-			//System.err.println("Next :: "+nextRecord.getObject().toString());
+			System.out.println("Next :: "+nextRecord.getObject().toString() );
 			fun.processEvent(nextRecord.getObject().f1);
 		}
 	}
