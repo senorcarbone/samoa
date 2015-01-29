@@ -126,8 +126,7 @@ public class FlinkProcessingItem extends StreamInvokable<SamoaType, SamoaType> i
 	public void invoke() throws Exception {
 		System.err.println("\n-------------------------WTF-------------------------: " + this.getId());
 		while (readNext() != null) {
-			System.err.println("In the while");
-			System.err.println("Next :: "+nextRecord.getObject().toString());
+			//System.err.println("Next :: "+nextRecord.getObject().toString());
 			fun.processEvent(nextRecord.getObject().f1);
 		}
 	}

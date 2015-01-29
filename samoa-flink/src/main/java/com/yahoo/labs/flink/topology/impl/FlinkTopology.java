@@ -124,7 +124,7 @@ public class FlinkTopology extends AbstractTopology {
 		FlinkProcessingItem tail = FlinkDoTask.circles.get(circleId).get(0);
 		FlinkProcessingItem head = FlinkDoTask.circles.get(circleId).get(FlinkDoTask.circles.size());
 
-		//------------------------------------------HEAD--------------------------------------------------------
+		//TODO:: refactor this part to apply in general cases also
 		//initialise source stream of the iteration, so as to use it for the iteration starting point
 		for (Tuple3<FlinkStream, Utils.Partitioning,Integer> inputStream : head.getInputStreams()) {
 			if (inputStream.f0.isInitialised()){ //if input stream is initialised
@@ -134,14 +134,15 @@ public class FlinkTopology extends AbstractTopology {
 						head.setInStream(Utils.subscribe(inputStream.f0.getOutStream(), inputStream.f1));
 					} else {
 						//merge already initialized streams of head of the iteration
-						head.setInStream(head.getInStream().merge(Utils.subscribe(inputStream.f0.getOutStream(), inputStream.f1)));
+						DataStream<SamoaType> in = head.getInStream().merge(Utils.subscribe(inputStream.f0.getOutStream(), inputStream.f1));
+						head.setInStream(in);
 					}
 				}catch (Exception e){
 					System.out.println(e);
 				}
 			}
 		}
-		IterativeDataStream ids = head.getInStream().iterate();
+		IterativeDataStream ids = head.getInStream().iterate(5000);
 		SplitDataStream temp = ids.transform("samoaProcessor", head.getInStream().getType(), head).setParallelism(head.getParallelism())
 				.split(new OutputSelector<SamoaType>() {
 					@Override
@@ -166,7 +167,7 @@ public class FlinkTopology extends AbstractTopology {
 		tail.initialiseStreams();
 
 		//refactor that:get(0) --> for the specific example
-		ids.closeWith(outStream.select(tail.getOutputStreams().get(0).getStreamId()));
+		ids.closeWith(((SplitDataStream) tail.getOutStream()).select(tail.getOutputStreams().get(0).getStreamId()));
 	}
 
 

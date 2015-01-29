@@ -109,7 +109,7 @@ public final class
                         TimeUnit.MICROSECONDS);
             }
         }
-        System.out.println("LOG :: Source Processor :: " + contentEvent.getInstance().toString());
+        //System.out.println("LOG :: Source Processor :: " + contentEvent.getInstance().toString());
         return contentEvent;
     }
     

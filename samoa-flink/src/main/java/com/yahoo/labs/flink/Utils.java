@@ -39,7 +39,7 @@ public class Utils {
 	public static String flinkMaster;
 	public static int flinkPort;
 	public static String[] dependecyJars;
-	public static int parallelism = 1;
+	public static int parallelism = 2;
 
 	public enum Partitioning {SHUFFLE, ALL, GROUP}
 
