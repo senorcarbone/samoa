@@ -50,6 +50,12 @@
             <groupId>com.yahoo.labs.samoa</groupId>
             <artifactId>samoa-api</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.esotericsoftware.kryo</groupId>
+                    <artifactId>kryo</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -63,6 +69,11 @@
 			<version>${flink.version}</version>
             <!--<scope>provided</scope>-->
 		</dependency>
+        <dependency>
+            <groupId>com.esotericsoftware.kryo</groupId>
+            <artifactId>kryo</artifactId>
+            <version>2.24.0</version>
+        </dependency>
     </dependencies>
 
 
